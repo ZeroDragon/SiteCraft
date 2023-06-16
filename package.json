@@ -1,0 +1,28 @@
+{
+  "name": "sitecraft",
+  "version": "1.0.0",
+  "bin": "src/index.mjs",
+  "description": "Static Site builder ",
+  "main": "src/index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Zero Dragon",
+  "license": "ISC",
+  "dependencies": {
+    "chokidar": "^3.4.3",
+    "consolecolors": "^0.33.2-b",
+    "js-yaml": "^4.1.0",
+    "live-server": "^1.2.2",
+    "marked": "^5.1.0",
+    "pug": "^3.0.2",
+    "stylus": "^0.59.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.42.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^16.0.0",
+    "eslint-plugin-promise": "^6.1.1"
+  }
+}
