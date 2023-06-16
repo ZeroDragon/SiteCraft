@@ -69,10 +69,14 @@ export const execute = (src, publicDir, templateDir) => {
 
   pages
     .map(({ html, path }) => {
-      const list = pug.renderFile(resolve(templateDir, 'partials/blogList.pug'), {
-        pretty: true,
-        posts
-      })
+      const blogList = resolve(templateDir, 'partials/blogList.pug')
+      let list = ''
+      if (ex(blogList)) {
+        list = pug.renderFile(blogList, {
+          pretty: true,
+          posts
+        })
+      }
       return {
         html: html
           .replace('!{blogList}', list)

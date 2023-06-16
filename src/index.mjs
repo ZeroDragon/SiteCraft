@@ -33,6 +33,7 @@ const isServer = action === 'serve'
 const isBuilder = action === 'build'
 
 export const devServer = async () => {
+  await buildAll()
   const watcher = chokidar.watch(
     [
       contentDir,
