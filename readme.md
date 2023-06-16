@@ -82,7 +82,7 @@ pages:  # this node is optional
 - siteName: used to populate `<title>` in your website.
 - siteDesc: same, used to populate the site description at your site metadata
 - author: this is added as a comment in the HTML as a small fingerprint
-- siteUrl: This is used to populate the site metadata
+- siteUrl: This is used to populate the site metadata and used to render non-root websites
 - cname: This will create a CNAME file at the root of your deployment, this is required for githubpages so you can use a custom url. Remember `cname` must not contain protocol, only the domain
 - pages: this is an optional node, if you add it, it will habilitate the shorthand pages to be used in the templates and display all pages described there.
 
