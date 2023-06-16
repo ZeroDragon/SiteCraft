@@ -13,11 +13,13 @@ import { execute as imageExec } from './images.mjs'
 import { execute as stylExec } from './styles.mjs'
 import { execute as dynamicExec } from './dynamic.mjs'
 import { execute as cnameExec } from './cname.mjs'
+import { execute as defExec } from './definitions.mjs'
 
 const src = process.cwd()
 const publicDir = resolve(src, 'public')
 const templateDir = resolve(src, 'template')
 const contentDir = resolve(src, 'content')
+defExec(src)
 
 export const buildAll = async _ => {
   rm(publicDir, { recursive: true, force: true })
@@ -25,7 +27,7 @@ export const buildAll = async _ => {
   imageExec(publicDir, templateDir)
   await stylExec(publicDir, templateDir)
   dynamicExec(src, publicDir, templateDir)
-  cnameExec(src, publicDir)
+  cnameExec(publicDir)
 }
 
 const [, , action = false] = process.argv

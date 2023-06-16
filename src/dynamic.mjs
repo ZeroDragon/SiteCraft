@@ -53,7 +53,7 @@ const getDynamic = dir => {
 export const execute = (src, publicDir, templateDir) => {
   console.log('- Loading dynamic data'.magenta)
   rm(resolve(publicDir, 'posts'), { recursive: true, force: true })
-  const definitions = yaml.load(rf(resolve(src, 'site.yml')))
+  const definitions = global.definitions
   const siteParams = JSON.parse(JSON.stringify(definitions))
 
   const pages = getDynamic(resolve(src, 'content'))
