@@ -1,6 +1,6 @@
 {
   "name": "sitecraft",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "bin": "src/index.mjs",
   "description": "Static Site builder ",
   "main": "src/index.mjs",
