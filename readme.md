@@ -19,7 +19,7 @@ serve the `/public` directory to any static server (nginx, apache, python, etc).
 Just install it with `npm i -D sitecraft` and then just use
 
 ```bash
-npx sitecraft
+npx sitecraft build
 ```
 to build `/public` directory
 
@@ -28,6 +28,15 @@ or
 npx sitecraft serve
 ```
 to launch a development server. THIS SERVER IS MEANT FOR DEVELOPMENT, only use it while doing changes to your site so you can see them in real time.
+
+## Use as API
+You can also use as API inside a `.js` or `.mjs` file
+```nodejs
+import { build, serve } from 'sitecraft'
+```
+
+- function `build` (no args) runs the build job
+- function `serve` (no args) runs the build job, start a file watcher for changes in your template and content directories, also starts a live-server to watch your changes in real time
 
 ## Structure
 ```
@@ -104,7 +113,7 @@ Here is my post in markdown
 ```
 
 meta is formatted as `yaml` and it should have:
-- title: the title of your post to render in the post list and navigation
+- title: the title of your post to render in the post list and navigation and to the `<title>` in the final HTML
 - date: consider using `YYYYMMDD` or `YYYYMMDDHHMM` if you are planning to post more than one post per day. SiteCraft will automatically order them using this value
 - author: you <3
 
@@ -118,6 +127,12 @@ Meanwhile, from inside the `.md` files, you cannot acces this variables, so ther
 - !{siteDesc} will render your site description as defined in `site.yml`
 
 More shorthands will come as needed
+
+## Images and favicon
+Everything inside `template/images/` will be transposed to `public/images/`
+Everything inside `template/favicon/` will be transposed to `public/` (root of your website)
+So browsers will look there for favicon.ico and other alternatives.
+Also check `template/partials/headMeta.pug` that is where all meta tags are defined (inside `<head>`) for all pages and blog posts
 
 ## Deploying
 Sitecraft creates (using `npx sitecraft`) a /public directory wich can be served using nginx, apache or any simple http server.

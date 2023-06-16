@@ -28,10 +28,9 @@ export const buildAll = async _ => {
   cnameExec(src, publicDir)
 }
 
-const [, , _isServer = false] = process.argv
-const isServer = !!_isServer
-
-await buildAll()
+const [, , action = false] = process.argv
+const isServer = action === 'serve'
+const isBuilder = action === 'build'
 
 export const devServer = async () => {
   const watcher = chokidar.watch(
@@ -83,9 +82,10 @@ export const devServer = async () => {
   })
 }
 
-if (isServer) devServer()
-
 export default {
   build: buildAll,
-  dev: devServer
+  serve: devServer
 }
+
+if (isBuilder) await buildAll()
+if (isServer) devServer()

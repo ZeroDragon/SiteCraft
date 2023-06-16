@@ -1,13 +1,17 @@
 {
   "name": "sitecraft",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "bin": "src/index.mjs",
   "description": "Static Site builder ",
   "main": "src/index.mjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint fix"
   },
-  "author": "Zero Dragon",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZeroDragon/SiteCraft"
+  },
+  "author": "Zero Dragon <npm@floresbenavides.com> (https://floresbenavides.com/)",
   "license": "ISC",
   "dependencies": {
     "chokidar": "^3.4.3",
