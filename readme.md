@@ -31,7 +31,7 @@ to launch a development server. THIS SERVER IS MEANT FOR DEVELOPMENT, only use i
 
 ## Use as API
 You can also use as API inside a `.js` or `.mjs` file
-```nodejs
+```javascript
 import { build, serve } from 'sitecraft'
 ```
 
@@ -39,6 +39,7 @@ import { build, serve } from 'sitecraft'
 - function `serve` (no args) runs the build job, start a file watcher for changes in your template and content directories, also starts a live-server to watch your changes in real time
 
 ## Structure
+SiteCraft needs a specific file structure to be able to function correctly. This is the file structure:
 ```
 ─ yoursite
   ├─ content
@@ -135,7 +136,7 @@ So browsers will look there for favicon.ico and other alternatives.
 Also check `template/partials/headMeta.pug` that is where all meta tags are defined (inside `<head>`) for all pages and blog posts
 
 ## Deploying
-Sitecraft creates (using `npx sitecraft`) a /public directory wich can be served using nginx, apache or any simple http server.
+Sitecraft creates (using `npx sitecraft build`) a /public directory wich can be served using nginx, apache or any simple http server.
 To deploy to github pages, you will need an action like this: 
 
 ```yaml
@@ -177,6 +178,14 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
 ```
-(remember to put this action as gh-pages.yml inside /.github/workflows/)
+Remember to
+
+- Put this action as `gh-pages.yml` inside `/.github/workflows/`
+- Add `"build": "sitecraft build"` to your scripts inside `package.json`
+
 
 note that this action will look for `./public` and will deploy that to the root of a new branch called gh-pages. Then just activate the gh-pages page for that repository
+
+### This looks a lot like Hugo
+Yes it does, I just didn't liked how hugo was working and how it was blog oriented instead of page oriented
+Also since I like easy stuff, I'm using styl and pug files to reduce the templating system.
