@@ -24,7 +24,7 @@ defExec(src)
 export const buildAll = async _ => {
   rm(publicDir, { recursive: true, force: true })
   mk(resolve(publicDir))
-  imageExec(publicDir, templateDir)
+  imageExec(contentDir, publicDir, templateDir)
   await stylExec(publicDir, templateDir)
   dynamicExec(src, publicDir, templateDir)
   cnameExec(publicDir)
@@ -47,6 +47,11 @@ export const devServer = async () => {
     }
   )
 
+  const dispatchImages = section => {
+    console.log('- Change in images'.green)
+    imageExec(contentDir, publicDir, templateDir, section)
+  }
+
   watcher
     .on('ready', () => console.log('Dev watcher started'))
     .on('raw', (_event, path) => {
@@ -66,11 +71,10 @@ export const devServer = async () => {
           dynamicExec(src, publicDir, templateDir)
           break
         case '':
-          console.log({ _event, path })
+          new Array(...['template/images', 'template/favicon', 'content/images']).forEach(section => {
+            if (path.includes(section)) dispatchImages(section)
+          })
           break
-        default:
-          console.log('- Change in images'.green)
-          imageExec(publicDir, templateDir)
       }
     })
     .on('error', error => console.error(error))
@@ -81,7 +85,7 @@ export const devServer = async () => {
     root: publicDir,
     file: 'index.html',
     logLevel: 2,
-    open: true
+    open: false
   })
 }
 

@@ -43,11 +43,13 @@ SiteCraft needs a specific file structure to be able to function correctly. This
 ```
 ─ yoursite
   ├─ content
+  |  ├─ images
+  │  │  └─ your-content-related-image.jpg
   |  ├─ posts
   │  │  └─ your-blog-post.md
   │  ├─ homepage.md
   │  └─ any-other-page.md
-  └─ template
+  ├─ template
   │  ├─ favicon
   │  │  └─ # all your favicon related files
   │  ├─ images
@@ -61,7 +63,7 @@ SiteCraft needs a specific file structure to be able to function correctly. This
   │  └─ # This directory is created with your final site
   └─ site.yml # all your site configurations
 ```
-Normally you wont need to edit anything inside `template` and you can just import it from the gallery (comming soon).
+Normally you wont need to edit anything inside `template` and you can just import it from the [gallery](https://zerodragon.github.io/SiteCraft-Gallery).
 
 For a regular site, you just need to update the styles.styl with your needs about site colors and fine adjustments. Also all stylus imports are going to be look for inside `partials` as root inside stylus.
 
@@ -87,16 +89,17 @@ pages:  # this node is optional
 - pages: this is an optional node, if you add it, it will habilitate the shorthand pages to be used in the templates and display all pages described there.
 
 ## Create your site
-the only required md file is `homepage.md` which must be located inside `content`. This file will be translated as index.html inside `public` when built.
+The only required md file is `homepage.md` which must be located inside `/content`. This file will be translated as index.html inside `/public` when built.
 There you can use md or html to create your homepage.
-Remember that header and footer are defined in `template`.
+Remember that header, footer and general styles are defined in `/template`.
 
 ### Want more pages?
-Just create another `.md` file inside content, this file will be transposed to the root of your site using the file name as the url.
+Just create another `.md` file inside `/content`, this file will be transposed to the root of your site using the file name as the url.
 
 ### Want a blog?
-Just put inside `/posts` your entries as `.md` files. Just as with pages, the file name will be transposed as the slug for your post.
+Just put inside `/content/posts` your entries as `.md` files. Just as with pages, the file name will be transposed as the slug for your post.
 - Currently all blog posts are being deployed to `yoursite/posts/your-blog-post`
+For content-related-images (not images that are defined in the template, but actually images for your pages and blog) put them in `/content/images`, those will be transposed to `/content/images` on the root of your site.
 
 ### Blog metadata
 All entries (pages and blog posts) are expecting a meta definition at the very begining of the file just like this:
@@ -117,6 +120,7 @@ meta is formatted as `yaml` and it should have:
 - title: the title of your post to render in the post list and navigation and to the `<title>` in the final HTML
 - date: consider using `YYYYMMDD` or `YYYYMMDDHHmm` if you are planning to post more than one post per day. SiteCraft will automatically order them using this value
 - author: you <3
+Any other entries that you put in this section (just before the empty line) will be exposed to the template so you can create custom blog lists
 
 This metadata is required for all blog posts, but not for pages. If you don't want to add any metadata to page just skip two lines and start your content at the 3rd line. (might think in something clever later, but for now, that works just fine)
 
@@ -126,10 +130,14 @@ Meanwhile, from inside the `.md` files, you cannot acces this variables, so ther
 - !{blogList} will render a HTML with the list of all the blog entries. No pagination available by now
 - !{siteName} will render your site name as defined in `site.yml`
 - !{siteDesc} will render your site description as defined in `site.yml`
+- !{siteUrl} will render your site url as defined in `site.yml`
+
+This shorthands can be used from pages and blog posts
 
 More shorthands will come as needed
 
 ## Images and favicon
+Everything inside `content/images/` will be transposed to `public/content/images/`
 Everything inside `template/images/` will be transposed to `public/images/`
 Everything inside `template/favicon/` will be transposed to `public/` (root of your website)
 So browsers will look there for favicon.ico and other alternatives.
@@ -148,6 +156,8 @@ on:
 
 jobs:
   deploy:
+    env:
+      ENV: production  # This is important so the build knows how to handle site URLs as absolute
     runs-on: ubuntu-22.04
     permissions:
       contents: write
@@ -182,7 +192,14 @@ Remember to
 
 - Put this action as `gh-pages.yml` inside `/.github/workflows/`
 - Add `"build": "sitecraft build"` to your scripts inside `package.json`
+- This workflow only works when dispatched from github actions. If you want something to run on every push to main, you could use something like this: 
 
+```yaml
+on:
+  push:
+    branches:
+      - 'main'
+```
 
 note that this action will look for `./public` and will deploy that to the root of a new branch called gh-pages. Then just activate the gh-pages page for that repository
 
