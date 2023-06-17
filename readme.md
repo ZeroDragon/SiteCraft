@@ -44,21 +44,21 @@ SiteCraft needs a specific file structure to be able to function correctly. This
 ─ yoursite
   ├─ content
   |  ├─ posts
-  |  |  └─ your-blog-post.md
-  |  ├─ homepage.md
-  |  └─ any-other-page.md
+  │  │  └─ your-blog-post.md
+  │  ├─ homepage.md
+  │  └─ any-other-page.md
   └─ template
-  |  ├─ favicon
-  |  |  └─ # all your favicon related files
-  |  ├─ images
-  |  |  └─ # all your images
-  |  ├─ partials
-  |  |  └─ # all partials needed for the template and SiteCraft
-  |  ├─ page.pug
-  |  ├─ post.pug
-  |  └─ styles.styl
+  │  ├─ favicon
+  │  │  └─ # all your favicon related files
+  │  ├─ images
+  │  │  └─ # all your images
+  │  ├─ partials
+  │  │  └─ # all partials needed for the template and SiteCraft
+  │  ├─ page.pug
+  │  ├─ post.pug
+  │  └─ styles.styl
   ├─ public
-  |  └─ # This directory is created with your final site
+  │  └─ # This directory is created with your final site
   └─ site.yml # all your site configurations
 ```
 Normally you wont need to edit anything inside `template` and you can just import it from the gallery (comming soon).
@@ -115,7 +115,7 @@ Here is my post in markdown
 
 meta is formatted as `yaml` and it should have:
 - title: the title of your post to render in the post list and navigation and to the `<title>` in the final HTML
-- date: consider using `YYYYMMDD` or `YYYYMMDDHHMM` if you are planning to post more than one post per day. SiteCraft will automatically order them using this value
+- date: consider using `YYYYMMDD` or `YYYYMMDDHHmm` if you are planning to post more than one post per day. SiteCraft will automatically order them using this value
 - author: you <3
 
 This metadata is required for all blog posts, but not for pages. If you don't want to add any metadata to page just skip two lines and start your content at the 3rd line. (might think in something clever later, but for now, that works just fine)
