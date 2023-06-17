@@ -66,7 +66,7 @@ export const devServer = async () => {
           dynamicExec(src, publicDir, templateDir)
           break
         case '':
-          console.log(_event, path)
+          console.log({ _event, path })
           break
         default:
           console.log('- Change in images'.green)

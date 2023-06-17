@@ -25,7 +25,7 @@ const migrateFavicons = (templateDir, publicDir) => {
 }
 
 export const execute = (publicDir, templateDir) => {
-  mk(resolve(publicDir, 'images'))
+  if (!ex(resolve(publicDir, 'images'))) mk(resolve(publicDir, 'images'))
   migrateImages(templateDir, publicDir)
   migrateFavicons(templateDir, publicDir)
 }
