@@ -6,8 +6,9 @@ import {
   mkdirSync as mk
 } from 'fs'
 import { resolve, extname } from 'path'
-import chokidar from 'chokidar'
-import liveServer from 'live-server'
+import { watch, start } from './devserv/index.mjs'
+// import chokidar from 'chokidar'
+// import liveServer from 'live-server'
 
 import { execute as imageExec } from './images.mjs'
 import { execute as stylExec } from './styles.mjs'
@@ -36,15 +37,12 @@ const isBuilder = action === 'build'
 
 export const devServer = async () => {
   await buildAll()
-  const watcher = chokidar.watch(
+  watch(
     [
       contentDir,
       templateDir,
       resolve(src, 'site.yml')
-    ], {
-      ignored: /(^|[\/\\])\../, // eslint-disable-line
-      persistent: true
-    }
+    ]
   )
 
   const dispatchImages = section => {
@@ -52,11 +50,10 @@ export const devServer = async () => {
     imageExec(contentDir, publicDir, templateDir, section)
   }
 
-  watcher
-    .on('ready', () => console.log('Dev watcher started'))
-    .on('raw', (_event, path) => {
-      const fileType = extname(path)
-      switch (fileType) {
+  global.evt
+    .on('sourceChange', filename => {
+      const fileExt = extname(filename)
+      switch (fileExt) {
         case '.styl':
           console.log('- Change in styles detected'.green)
           stylExec(publicDir, templateDir)
@@ -70,23 +67,15 @@ export const devServer = async () => {
           console.log('- Change in Blog files'.green)
           dynamicExec(src, publicDir, templateDir)
           break
-        case '':
+        default:
           new Array(...['template/images', 'template/favicon', 'content/images']).forEach(section => {
-            if (path.includes(section)) dispatchImages(section)
+            if (filename.includes(section)) dispatchImages(section)
           })
           break
       }
     })
-    .on('error', error => console.error(error))
 
-  liveServer.start({
-    port: 8080,
-    host: 'localhost',
-    root: publicDir,
-    file: 'index.html',
-    logLevel: 2,
-    open: false
-  })
+  await start(8080)
 }
 
 export default {

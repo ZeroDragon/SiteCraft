@@ -1,0 +1,14 @@
+  <!-- Code injected by DevServ -->
+  <script>
+    const events = new EventSource(`http://localhost:${EVENT_PORT}/`)
+    events.onmessage = ({data}) => {
+      if (data === '.css') {
+        const queryString = '?reload=' + new Date().getTime()
+        document.querySelectorAll('link[rel="stylesheet"]').forEach(item => {
+          item.href = item.href.replace(/\?.*|$/, queryString)
+        })
+      } else {
+        document.location.href = document.location.href
+      }
+    }
+  </script>

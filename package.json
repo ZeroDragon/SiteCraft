@@ -14,10 +14,8 @@
   "author": "Zero Dragon <npm@floresbenavides.com> (https://floresbenavides.com/)",
   "license": "ISC",
   "dependencies": {
-    "chokidar": "3.4.3",
     "consolecolors": "^0.33.2-b",
     "js-yaml": "^4.1.0",
-    "live-server": "^1.2.2",
     "marked": "^5.1.0",
     "pug": "^3.0.2",
     "stylus": "^0.59.0"
