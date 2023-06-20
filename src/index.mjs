@@ -7,14 +7,13 @@ import {
 } from 'fs'
 import { resolve, extname } from 'path'
 import { watch, start } from './devserv/index.mjs'
-// import chokidar from 'chokidar'
-// import liveServer from 'live-server'
 
 import { execute as imageExec } from './images.mjs'
 import { execute as stylExec } from './styles.mjs'
 import { execute as dynamicExec } from './dynamic.mjs'
 import { execute as cnameExec } from './cname.mjs'
 import { execute as defExec } from './definitions.mjs'
+import { newEntry } from './entries.mjs'
 
 const src = process.cwd()
 const publicDir = resolve(src, 'public')
@@ -31,9 +30,7 @@ export const buildAll = async _ => {
   cnameExec(publicDir)
 }
 
-const [, , action = false] = process.argv
-const isServer = action === 'serve'
-const isBuilder = action === 'build'
+const [, , action = false, path2entry] = process.argv
 
 export const devServer = async () => {
   await buildAll()
@@ -83,5 +80,26 @@ export default {
   serve: devServer
 }
 
-if (isBuilder) await buildAll()
-if (isServer) devServer()
+switch (action) {
+  case 'build':
+    await buildAll()
+    break
+  case 'serve':
+    devServer()
+    break
+  case 'create':
+    newEntry(contentDir, path2entry)
+    break
+  default:
+    [
+      '',
+      'SiteCraft Help'.magenta,
+      '',
+      'Usage:',
+      '$ sitecraft build '.blue + '# to build your site at public/'.grey,
+      '$ sitecraft serve '.blue + '# to serve your site for development'.grey,
+      '$ sitecraft create my-page.md '.blue + '# to add a page at content/my-page.md'.grey,
+      '$ sitecraft create posts/my-post.md '.blue + '# to add a post at content/posts/my-page.md'.grey
+    ].forEach(i => console.log(i))
+    break
+}

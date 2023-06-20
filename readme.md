@@ -29,6 +29,25 @@ npx sitecraft serve
 ```
 to launch a development server. THIS SERVER IS MEANT FOR DEVELOPMENT, only use it while doing changes to your site so you can see them in real time.
 
+also
+```bash
+npx sitecraft create my-page.md
+```
+to create a new page at the root of your site
+
+or
+```bash
+npx sitecraft create posts/my-entry.md
+```
+to create a new new blog post entry
+
+finally
+
+```bash
+npx sitecraft help
+```
+for help
+
 ## Use as API
 You can also use as API inside a `.js` or `.mjs` file
 ```javascript
