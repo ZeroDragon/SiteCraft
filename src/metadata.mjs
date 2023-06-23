@@ -30,6 +30,7 @@ const buildRSS = (src, publicDir) => {
   })
   wf(resolve(publicDir, 'atom.xml'), xml)
   const xsl = rf(resolve(dirname, 'rss.xsl'))
+    .replace('/styles.css', `${global.definitions.siteUrl}/styles.css`)
   wf(resolve(publicDir, 'rss.xsl'), xsl)
 }
 
@@ -45,6 +46,7 @@ const buildSitemap = (src, publicDir) => {
   })
   wf(resolve(publicDir, 'sitemap.xml'), xml)
   const xsl = rf(resolve(dirname, 'sitemap.xsl'))
+    .replace('/styles.css', `${global.definitions.siteUrl}/styles.css`)
   wf(resolve(publicDir, 'sitemap.xsl'), xsl)
 }
 
