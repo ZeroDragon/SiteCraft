@@ -147,6 +147,12 @@ This metadata is required for all blog posts, but not for pages. If you don't wa
 SiteCraft will render a simple `atom.xml` RSS file directly on the root of your site containing all information about your latest 10 entries. 
 It is important that it relies on the same metadata defined on each post, so keep in mind that.
 
+### Sitemap
+Similart to `atom.xml` SiteCraft will render a `sitemap.xml` directly on root of your site. Containing links to all your pages and blog posts
+
+### XML Styles
+Both RSS and Sitemaps are defined with `XSL` transformers that use the same `styles.css` that powers your site. It only uses the class `xml` to contain everything, define your styles according to that if you want to change it.
+
 ## Shorthands and variables
 All variables defined in `site.yml` can be accesed at the `pug` files and can be used at a glance.
 Meanwhile, from inside the `.md` files, you cannot acces this variables, so ther are a couple of shorthands that you can use to improve your site.
