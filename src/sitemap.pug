@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/sitemap.xsl" type="text/xsl"?>
+
+urlset(xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
+  for url, name in pages
+    url
+      loc(title=`${name}`) #{siteUrl}#{url}
+  for post in posts
+    url
+      loc(title=`${post.meta.title}`) #{siteUrl}/posts/#{post.path}
+      lastmod #{post.meta.date.toISOString().slice(0, 10)}

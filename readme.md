@@ -143,6 +143,10 @@ Any other entries that you put in this section (just before the empty line) will
 
 This metadata is required for all blog posts, but not for pages. If you don't want to add any metadata to page just skip two lines and start your content at the 3rd line. (might think in something clever later, but for now, that works just fine)
 
+### RSS
+SiteCraft will render a simple `atom.xml` RSS file directly on the root of your site containing all information about your latest 10 entries. 
+It is important that it relies on the same metadata defined on each post, so keep in mind that.
+
 ## Shorthands and variables
 All variables defined in `site.yml` can be accesed at the `pug` files and can be used at a glance.
 Meanwhile, from inside the `.md` files, you cannot acces this variables, so ther are a couple of shorthands that you can use to improve your site.

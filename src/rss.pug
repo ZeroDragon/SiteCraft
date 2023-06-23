@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/rss.xsl" type="text/xsl"?>
+
+feed(xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/")
+  title #{siteName}
+  subtitle #{siteDesc}
+  link(href=`${siteUrl}/atom.xml` rel="self")
+  link(href=`${siteUrl}`)
+  updated #{lastUpdated}
+  id ${siteUrl}
+  author
+    name #{author.name}
+    uri #{author.site}
+
+  for post in posts
+    entry
+      title #{post.meta.title}
+      link(href=`${siteUrl}/posts/${post.path}`)
+      id #{siteUrl}/posts/#{post.path}
+      published #{post.meta.date.toISOString()}
+      updated #{post.meta.date.toISOString()}
+      media:thumbnail(url=`${siteUrl}/${post.meta.image}`)
+      for category in post.meta.categories || []
+        category(term=`${category}`)
+      content(type="html") #{post.html}
+      summary #{post.meta.excerpt}
