@@ -52,6 +52,7 @@ export const execute = (src, publicDir, templateDir) => {
         pretty: true,
         ...Object.assign(siteParams, {
           pageData: html,
+          comments: meta.comments || {},
           siteName: `${meta.title} - ${siteParams.siteName}`
         }),
         prev,
