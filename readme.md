@@ -139,7 +139,9 @@ meta is formatted as `yaml` and it should have:
 - title: the title of your post to render in the post list and navigation and to the `<title>` in the final HTML
 - date: consider using `YYYYMMDD` or `YYYYMMDDHHmm` if you are planning to post more than one post per day. SiteCraft will automatically order them using this value
 - author: you <3
-Any other entries that you put in this section (just before the empty line) will be exposed to the template so you can create custom blog lists
+- excerpt: A short description of your post
+- image: Url to your showcase image of the post
+- tags: a list of tags for your post
 
 This metadata is required for all blog posts, but not for pages. If you don't want to add any metadata to page just skip two lines and start your content at the 3rd line. (might think in something clever later, but for now, that works just fine)
 
@@ -161,9 +163,16 @@ Meanwhile, from inside the `.md` files, you cannot acces this variables, so ther
 - !{siteDesc} will render your site description as defined in `site.yml`
 - !{siteUrl} will render your site url as defined in `site.yml`
 
+blogList requires a `/template/blogList.pug` file in your site so it can render correctly. Check the example in SiteCraft Gallery.
+
 This shorthands can be used from pages and blog posts
 
 More shorthands will come as needed
+
+### Tags
+Since version 1.1.12 Tags are available for each post, you just need to define them in your `.md` file
+and use them in your blog template (see example in SiteCraft Gallery)
+To make them work, you must create a `/content/post.md` file where you must define the blogList shorthand and a simple script to hide discriminated objects. I suggest not to include this page in your `site.yml` since is just an indiscrimitaed list of posts.
 
 ## Images and favicon
 Everything inside `content/images/` will be transposed to `public/content/images/`

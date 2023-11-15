@@ -56,7 +56,8 @@ export const execute = (src, publicDir, templateDir) => {
           siteName: `${meta.title} - ${siteParams.siteName}`
         }),
         prev,
-        next
+        next,
+        ...meta
       })
       const template = shortHands(src, templateDir, _template)
       if (!ex(resolve(publicDir, 'posts', path))) mk(resolve(publicDir, 'posts', path))
