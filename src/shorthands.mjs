@@ -1,12 +1,16 @@
 import {
   existsSync as ex,
   readdirSync as rd,
-  readFileSync as rf
+  readFileSync as rf,
+  statSync as ss
 } from 'fs'
-import { resolve, extname, basename } from 'path'
+import { resolve, extname, basename, dirname } from 'path'
 import pug from 'pug'
 import { marked } from 'marked'
 import yaml from 'js-yaml'
+import { createRequire } from 'module'
+
+const require = createRequire(import.meta.url)
 
 const renderer = new marked.Renderer()
 renderer.link = function () {
@@ -75,6 +79,30 @@ export const execute = (src, templateDir, html) => {
     siteUrl: siteParams.siteUrl,
     siteDesc: siteParams.siteDesc
   }
+
+  const resolvedPlugins = []
+  const resolvePluginScripts = (dir) => {
+    return rd(dir)
+      .map(item => resolve(dir, item))
+      .forEach(file => {
+        if (ss(file).isDirectory()) return resolvePluginScripts(file)
+        if (extname(file) !== '.js') return
+        if (ss(file).isFile()) return resolvedPlugins.push([dirname(file), require(file)])
+      })
+  }
+  resolvePluginScripts(resolve(src, 'template', 'plugins'))
+  resolvedPlugins.forEach(([filePath, plugin]) => {
+    for (const key in plugin.shortHands) {
+      const shortHand = plugin.shortHands[key]
+      const html = pug.renderFile(resolve(filePath, shortHand.template), {
+        pretty: true,
+        ...siteParams,
+        ...yaml.load(shortHand.data).meta,
+        path: shortHand.file
+      })
+      shortHands[key] = html
+    }
+  })
 
   return Object.entries(shortHands).reduce((acumulator, [key, value]) => {
     return acumulator
