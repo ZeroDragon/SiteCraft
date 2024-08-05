@@ -24,13 +24,15 @@ export const execute = (src, publicDir, templateDir) => {
   if (posts.length > 0 && !ex(resolve(publicDir, 'posts'))) {
     mk(resolve(publicDir, 'posts'))
   }
+  const postsRefs = posts.map(({ meta, path }) => ({ ...meta, path }))
 
   pages
     .map(({ html, path }) => ({ html: shortHands(src, templateDir, html), path }))
     .forEach(({ html, path }) => {
       const template = pug.renderFile(resolve(templateDir, 'page.pug'), {
         pretty: true,
-        ...Object.assign(siteParams, { pageData: html })
+        ...Object.assign(siteParams, { pageData: html }),
+        postsRefs
       })
       if (path === 'homepage') return wf(resolve(publicDir, 'index.html'), template)
       if (!ex(resolve(publicDir, path))) mk(resolve(publicDir, path))
@@ -57,7 +59,8 @@ export const execute = (src, publicDir, templateDir) => {
         }),
         prev,
         next,
-        ...meta
+        ...meta,
+        postsRefs
       })
       const template = shortHands(src, templateDir, _template)
       if (!ex(resolve(publicDir, 'posts', path))) mk(resolve(publicDir, 'posts', path))
