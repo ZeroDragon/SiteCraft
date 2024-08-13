@@ -48,6 +48,44 @@ export const getDynamic = dir => {
   }
 }
 
+const plugins = (templateDir, siteParams, inputs) => {
+  const dir = resolve(templateDir, 'plugins/')
+  return rd(dir)
+    .filter(item => extname(item) === '.yml')
+    .map(item => resolve(dir, item))
+    .map(file => yaml.load(rf(file, 'utf8')).definitions)
+    .map(plugin => {
+      const input = inputs[plugin.input]
+      const template = resolve(dir, `${plugin.template}.pug`)
+      return plugin.transformations.map(transformation => {
+        let items = ''
+        if (ex(template)) {
+          const tranformedInput = input[transformation.type](post => {
+            const objective = post.meta[transformation.objective]
+            const retval = objective.includes(transformation.action.value)
+            return transformation.action.type === 'includes' ? retval : !retval
+          })
+          if (tranformedInput.length !== 0) {
+            items = pug.renderFile(template, {
+              pretty: true,
+              ...siteParams,
+              [plugin.input]: tranformedInput
+            })
+          }
+        }
+        if (items !== '') {
+          return {
+            shorthand: transformation.shorthand,
+            items
+          }
+        }
+        return null
+      })
+      .filter(Boolean)
+    })
+    .flat()
+}
+
 export const execute = (src, templateDir, html) => {
   const blogList = resolve(templateDir, 'partials/blogList.pug')
   const definitions = global.definitions
@@ -75,6 +113,11 @@ export const execute = (src, templateDir, html) => {
     siteUrl: siteParams.siteUrl,
     siteDesc: siteParams.siteDesc
   }
+
+  plugins(templateDir, siteParams, { posts })
+    .forEach(({ shorthand, items }) => {
+      shortHands[shorthand] = items
+    })
 
   return Object.entries(shortHands).reduce((acumulator, [key, value]) => {
     return acumulator
