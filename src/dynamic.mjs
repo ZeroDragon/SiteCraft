@@ -52,7 +52,7 @@ export const execute = (src, publicDir, templateDir) => {
     .forEach(({ html, path, meta, prev, next }) => {
       const _template = pug.renderFile(resolve(templateDir, 'post.pug'), {
         pretty: true,
-        ...Object.assign(siteParams, {
+        ...Object.assign({ ...siteParams }, {
           pageData: html,
           comments: meta.comments || {},
           siteName: `${meta.title} - ${siteParams.siteName}`
