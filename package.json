@@ -16,7 +16,7 @@
   "dependencies": {
     "consolecolors": "^0.33.2-b",
     "js-yaml": "^4.1.0",
-    "marked": "^14.0.0",
+    "marked": "^15.0.0",
     "pug": "^3.0.3",
     "stylus": "^0.63.0"
   },
