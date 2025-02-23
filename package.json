@@ -18,7 +18,7 @@
     "js-yaml": "^4.1.0",
     "marked": "^15.0.3",
     "pug": "^3.0.3",
-    "stylus": "^0.63.0"
+    "stylus": "^0.64.0"
   },
   "devDependencies": {
     "eslint": "^8.0.1",
